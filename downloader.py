@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os, errno, re, sys
 from astroquery.alma import Alma
 import numpy as np
@@ -72,7 +75,7 @@ class Downloader:
 		self.__destroy_sqlite_connection()
 		return r
 
-	def saveMetadata(self, q='', save_link_list=True, download=False, date=None):
+	def saveMetadata(self, search='', save_link_list=True, download=False, date=None):
 		# date is the Release Date from the project
 
 		self.__create_sqlite_connection()
@@ -83,9 +86,9 @@ class Downloader:
 			# | GETTING DATA FROM ALMA ARCHIVE |
 			# ----------------------------------
 			if date:
-				data = Alma.query_object(q)
+				data = Alma.query_object(search)
 			else:
-				data = Alma.query_object(q)
+				data = Alma.query_object(search)
 			print('[Downloader] Number of results:', len(data))
 
 			i = 0
