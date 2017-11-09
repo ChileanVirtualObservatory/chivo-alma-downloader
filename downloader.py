@@ -82,7 +82,10 @@ class Downloader:
 			# ----------------------------------
 			# | GETTING DATA FROM ALMA ARCHIVE |
 			# ----------------------------------
-			data = Alma.query_object(q)
+			if date:
+				data = Alma.query_object(q)
+			else:
+				data = Alma.query_object(q)
 			print('[Downloader] Number of results:', len(data))
 
 			i = 0
@@ -131,11 +134,7 @@ class Downloader:
 						tmp_col_data.append(str(row[col]))
 
 				try:
-					if date:
-						tmp_col_data.append(date)
-						cur.execute("INSERT INTO projects_data VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE release_date > ?", tmp_col_data)
-					else:
-						cur.execute("INSERT INTO projects_data VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", tmp_col_data)
+					cur.execute("INSERT INTO projects_data VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", tmp_col_data)
 					print('(ProjectData) Insertion number ['+str(i)+']; ID='+str(next_project_id))
 					next_project_id+=1
 				except lite.Error, e:
